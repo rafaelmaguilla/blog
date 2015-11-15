@@ -5,11 +5,13 @@
 <table class="table table-hover">
   <thead>
     <th>Nome Completo</th>
+    <th>Descrição</th>
   </thead>
   <tbody>
     {% for author in qs_authors %}
     <tr>
       <td>{{author.user.first_name}} {{author.user.last_name}}</td>
+      <td>{{author.description}}</td>
     </tr>
     {% endfor %}
   </tbody>

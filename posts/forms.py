@@ -60,3 +60,14 @@ class AuthorForm(forms.ModelForm):
         super(AuthorForm, self).__init__(*args, **kwargs)
         self.fields['photo'].label = 'Escolha uma foto'
         self.fields['description'].label = 'Descrição'
+
+class ArticleForm(forms.ModelForm):
+
+    class Meta:
+        model = Article
+        exclude = ['author', 'date_time']
+
+    def __init__(self, *args, **kwargs):
+        super(ArticleForm, self).__init__(*args, **kwargs)
+        self.fields['title'].label = u'Título'
+        self.fields['content'].label = 'Escreva seu texto aqui'

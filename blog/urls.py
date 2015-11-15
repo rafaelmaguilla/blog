@@ -14,4 +14,8 @@ urlpatterns = [
     url(r'^logout_author/$', LogoutAuthor.as_view()),
     url(r'^create_author/$', CreateAuthor.as_view()),
     url(r'^list_authors/$', ListAuthors.as_view()),
+    #ARTICLES' URLS
+    url(r'^create_article/$', CreateArticle.as_view()),
+    url(r'^list_my_articles/$', ListMyArticles.as_view()),
+    url(r'^list_articles/(?P<id_author>[0-9]+)/$', ListArticles.as_view()),
 ]

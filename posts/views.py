@@ -28,6 +28,7 @@ def highlight_errors(request, form_list):
 			if field.errors:
 				print(str(field.errors))
 
+######## CLASSES ABSTRATAS
 class Login(View):
 	post = False
 	def get(self, request):
@@ -49,10 +50,11 @@ class Login(View):
 				login(request, user)
 				return redirect(self.redirect_to)
 			else:
-				print('Sua conta foi desativada!')
+				messages.error(request, u'Sua conta foi está desativada!')
 		else:
-			print('Username e/ou senha incorreto(s)')
+			messages.error(request, 'Username e/ou senha incorreto(s)')
 		return render(request, self.template, locals())
+
 
 class Logout(View):
     def get(self, request):
@@ -64,14 +66,6 @@ class Logout(View):
         if request.user.is_authenticated():
             logout(request)
         return redirect(self.redirect_to)
-
-class LoginAuthor(Login):
-	login_form = LoginForm
-	template = 'login_author.html'
-	redirect_to = '/list_authors'
-
-class LogoutAuthor(Logout):
-	redirect_to = '/login_author'
 
 class CreateUser(View):
 	post = False
@@ -95,16 +89,76 @@ class CreateUser(View):
 			new_user = user_form.save()
 			new_object.user = new_user
 			new_object.save()
+			messages.success(request, self.success_message)
 			return redirect(self.redirect_to)
 		else:
 			return self.get(request)
+
+class CreateObject(View):
+	post = False
+
+	def get(self, request):
+		if not self.post:
+			object_form = self.object_form()
+		else:
+			object_form = self.object_form(request.POST)
+		return render(request, self.template, locals())
+
+	def post(self, request):
+		self.post = True
+		object_form = self.object_form(request.POST)
+		if object_form.is_valid():
+			new_object = object_form.save(commit = False)
+			user = request.user
+			if Author.objects.filter(user = user).exists():
+				new_object.author = Author.objects.get(user = user)
+				new_object.save()
+			elif Reader.objects.filter(user = user).exists():
+				new_object.author = Reader.objects.get(user = user)
+				new_object.save()
+			return redirect(self.redirect_to)
+		else:
+			return self.get(request)
+
+#################
+
+################# CRUD/LOGIN/LOGOUT AUTOR
+class LoginAuthor(Login):
+	login_form = LoginForm
+	template = 'login_author.html'
+	redirect_to = '/list_authors'
+
+class LogoutAuthor(Logout):
+	redirect_to = '/login_author'
 
 class CreateAuthor(CreateUser):
 	object_form = AuthorForm
 	template = 'new_author.html'
 	redirect_to = '/list_authors'
+	success_message = 'Autor cadastrado com sucesso!'
 
 class ListAuthors(View):
 	def get(self, request):
 		qs_authors = Author.objects.all().order_by('user__first_name')
 		return render(request, 'list_authors.html', locals())
+
+############## CRUD ARTIGO
+
+class CreateArticle(CreateObject):
+	object_form = ArticleForm
+	redirect_to = '/list_my_articles'
+	template = 'new_article.html'
+	success_message = 'Artigo criado com sucesso!'
+
+
+class ListMyArticles(View):
+	def get(self, request):
+		qs_articles = Articles.objects.filter(
+		author__user = request.user).order_by('date_time')
+		return render(request, 'my_articles.html', locals())
+
+class ListArticles(View):
+	def get(self, request, id_author):
+		qs_articles = Articles.objects.filter(
+		author__id = id_author).order_by('date_time')
+		return render(request, 'list_articles.html', locals())
