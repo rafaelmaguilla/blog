@@ -1,0 +1,265 @@
+/*
+Template Name: Moltran Dashboard
+Author: CoderThemes
+Email: coderthemes@gmail.com
+File: Panel
+*/
+
+
+.panel {
+  -moz-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  border-radius: 0px;
+  border: none;
+  box-shadow: 0px 1px 2px 0px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  .panel-body {
+    padding: 20px;
+    p {
+      margin: 0px;
+    }
+    p + p {
+      margin-top: 15px;
+    }
+  }
+}
+
+.panel-heading {
+  border-radius: 0;
+  border: none !important;
+  padding: 10px 20px;
+}
+
+.panel-default > .panel-heading {
+  background-color: @light-alt;
+  border-bottom: none;
+  color: #797979;
+}
+
+.panel-title {
+  font-size: 14px;
+  font-weight: 600;
+  margin-bottom: 0;
+  margin-top: 0;
+  text-transform: uppercase;
+}
+
+.panel-footer {
+  background: @light-alt;
+  border-top: 0px;
+}
+
+.panel-color {
+  .panel-title {
+    color: @white;
+  }
+}
+
+.panel-primary > .panel-heading {
+  background-color: @primary;
+}
+
+.panel-success > .panel-heading {
+  background-color: @success;
+}
+
+.panel-info > .panel-heading {
+  background-color: @info;
+}
+
+.panel-warning > .panel-heading {
+  background-color: @warning;
+}
+
+.panel-danger > .panel-heading {
+  background-color: @danger;
+}
+
+.panel-purple > .panel-heading {
+  background-color: @purple;
+}
+
+.panel-pink > .panel-heading {
+  background-color: @pink;
+}
+
+.panel-inverse > .panel-heading {
+  background-color: @inverse;
+}
+
+.panel-border {
+  border-radius: 3px;
+}
+
+.panel-border .panel-heading {
+  background-color: @white;
+  border-top: 3px solid #ccc !important;
+  border-radius: 3px;
+  padding: 10px 20px 0px;
+}
+
+.panel-border .panel-body {
+  padding: 15px 20px 20px 20px;
+}
+
+.panel-border.panel-primary .panel-heading {
+  border-color: @primary !important;
+  color: @primary !important;
+}
+
+.panel-border.panel-success .panel-heading {
+  border-color: @success !important;
+  color: @success !important;
+}
+
+.panel-border.panel-info .panel-heading {
+  border-color: @info !important;
+  color: @info !important;
+}
+
+.panel-border.panel-warning .panel-heading {
+  border-color: @warning !important;
+  color: @warning !important;
+}
+
+.panel-border.panel-danger .panel-heading {
+  border-color: @danger !important;
+  color: @danger !important;
+}
+
+.panel-border.panel-purple .panel-heading {
+  border-color: @purple !important;
+  color: @purple !important;
+}
+
+.panel-border.panel-pink .panel-heading {
+  border-color: @pink !important;
+  color: @pink !important;
+}
+
+.panel-border.panel-inverse .panel-heading {
+  border-color: @inverse !important;
+  color: @inverse !important;
+}
+
+.panel-fill {
+  border-radius: 3px;
+}
+
+.panel-fill .panel-heading {
+  background-color: transparent;
+  color: @white;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5) !important;
+}
+
+.panel-fill .panel-body {
+  color: rgba(255, 255, 255, .85);
+}
+
+.panel-fill.panel-default .panel-body {
+  color: #666;
+}
+
+.panel-fill.panel-default .panel-heading {
+  background-color: transparent;
+  color: @lightdark3;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1) !important;
+}
+
+.panel-fill.panel-primary {
+  background-color: #489ce7;
+}
+
+.panel-fill.panel-success {
+  background-color: #58c386;
+}
+
+.panel-fill.panel-info {
+  background-color: #50c1f4;
+}
+
+.panel-fill.panel-warning {
+  background-color: #fcdc63;
+}
+
+.panel-fill.panel-danger {
+  background-color: #ef7270;
+}
+
+.panel-fill.panel-purple {
+  background-color: #9475cb;
+}
+
+.panel-fill.panel-pink {
+  background-color: #ec6391;
+}
+
+.panel-fill.panel-inverse {
+  background-color: #4a4a4a;
+}
+
+
+.panel-group {
+  .panel {
+    .panel-heading {
+      a[data-toggle=collapse].collapsed {
+        &:before {
+          content: '\f067';
+        }
+      }
+      .accordion-toggle.collapsed {
+        &:before {
+          content: '\f067';
+        }
+      }
+      a[data-toggle=collapse] {
+        display: block;
+        &:before {
+          content: '\f068';
+          display: block;
+          float: right;
+          font-family: 'FontAwesome';
+          font-size: 14px;
+          text-align: right;
+          width: 25px;
+        }
+      }
+      .accordion-toggle {
+        display: block;
+        &:before {
+          content: '\f068';
+          display: block;
+          float: right;
+          font-family: 'FontAwesome';
+          font-size: 14px;
+          text-align: right;
+          width: 25px;
+        }
+      }
+    }
+    .panel-heading + .panel-collapse {
+      .panel-body {
+        border-top: none;
+      }
+    }
+  }
+  .panel-heading {
+    padding: 12px 26px;
+  }
+}
+
+.panel-group.panel-group-joined {
+  .panel + .panel {
+    border-top: 1px solid @light;
+    margin-top: 0;
+  }
+}
+
+.panel-group-joined {
+  .panel-group {
+    .panel + .panel {
+      border-top: 1px solid @light;
+      margin-top: 0;
+    }
+  }
+}

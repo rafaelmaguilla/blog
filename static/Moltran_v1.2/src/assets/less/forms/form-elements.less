@@ -1,0 +1,284 @@
+/*
+Template Name: Moltran Dashboard
+Author: CoderThemes
+Email: coderthemes@gmail.com
+File: Form-elements
+*/
+
+.error {
+  color: #ff0000;
+}
+
+.datepicker {
+  border: 1px solid @lightgray;
+  padding: 8px;
+  th {
+    font-size: 14px !important;
+  }
+}
+
+.search-input {
+  margin-bottom: 10px;
+}
+
+.ms-selectable {
+  box-shadow: none;
+  outline: none !important;
+}
+
+.ms-container {
+  .ms-list.ms-focus {
+    box-shadow: none;
+  }
+  .ms-selectable {
+    li.ms-hover {
+      background-color: @primary;
+    }
+  }
+  .ms-selection {
+    li.ms-hover {
+      background-color: @primary;
+    }
+  }
+}
+
+.spinner-buttons.btn-group-vertical {
+  .btn {
+    background-color: @light;
+    border: none !important;
+    box-shadow: none !important;
+    height: 17px;
+    line-height: 16px;
+    margin: 0;
+    padding-left: 6px;
+    padding-right: 6px;
+    text-align: center;
+    width: 22px;
+    i {
+      color: @lightdark3 !important;
+      line-height: 10px;
+      margin-top: -3px;
+    }
+    &:first-child {
+      -webkit-border-radius: 0 0px 0 0 !important;
+      border-radius: 0 0px 0 0 !important;
+    }
+    &:last-child {
+      -webkit-border-radius: 0 0 0px !important;
+      border-radius: 0 0 0px !important;
+    }
+  }
+}
+
+.note-editor {
+  border: 1px solid @lightgray;
+  position: relative;
+  .note-toolbar {
+    background-color: @light3;
+    border-bottom: 1px solid @lightgray;
+    margin: 0;
+  }
+  .note-statusbar {
+    background-color: @white;
+    .note-resizebar {
+      border-top: 1px solid @lightgray;
+      height: 15px;
+      padding-top: 3px;
+    }
+  }
+}
+
+.note-popover {
+  .popover {
+    .popover-content {
+      padding: 5px 0 10px 5px;
+    }
+  }
+}
+
+.note-toolbar {
+  padding: 5px 0 10px 5px;
+}
+
+.code-edit-wrap {
+  padding: 0px !important;
+}
+
+.cm-s-ambiance {
+  .CodeMirror-linenumber {
+    color: #bcbcbc;
+  }
+  .CodeMirror-gutters {
+    background-color: @inverse !important;
+    box-shadow: none;
+  }
+}
+
+.cm-s-ambiance.CodeMirror {
+  background-color: @inverse !important;
+  box-shadow: none;
+}
+
+.bootstrap-timepicker-widget {
+  table {
+    td {
+      a {
+        &:hover {
+          background-color: transparent;
+          border-color: transparent;
+          border-radius: 4px;
+          color: @primary;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}
+
+.editor-horizontal {
+  .popover-content {
+    padding: 9px 30px;
+  }
+}
+
+.wizard > .content {
+  background: @white;
+  min-height: 240px;
+  padding: 20px;
+}
+
+.wizard > .content > .body {
+  padding: 0px;
+  input {
+    border: 1px solid @light;
+  }
+  ul > li {
+    display: block;
+    display: block;
+    line-height: 30px;
+  }
+  label.error {
+    color: #e55957;
+    margin-left: 0;
+  }
+  label {
+    display: inline-block;
+    margin-top: 10px;
+  }
+}
+
+.wizard > .steps {
+  .number {
+    border-radius: 50%;
+    display: inline-block;
+    line-height: 30px;
+    margin-right: 10px;
+  }
+  .disabled {
+    a {
+      background: #f2f2f2;
+      color: @lightdark3;
+      cursor: default;
+      &:hover {
+        background: #f2f2f2;
+        color: @lightdark3;
+        cursor: default;
+      }
+      &:active {
+        background: #f2f2f2;
+        color: @lightdark3;
+        cursor: default;
+      }
+    }
+  }
+  .current {
+    a {
+      background: @primary;
+      &:hover {
+        background: @primary;
+        .number {
+          background: transparent;
+          color: @white;
+        }
+      }
+      &:active {
+        background: @primary;
+        .number {
+          background: transparent;
+          color: @white;
+        }
+      }
+      .number {
+        background: transparent;
+        color: @white;
+      }
+    }
+  }
+  .done {
+    a {
+      background: @lightdark-alt;
+      &:hover {
+        background: @lightdark-alt;
+      }
+      &:active {
+        background: @lightdark-alt;
+      }
+    }
+  }
+}
+
+.wizard > .steps a, .wizard > .steps a:hover, .wizard > .steps a:active, .wizard > .content {
+  border-radius: 2px;
+}
+
+.wizard > .actions {
+  margin-bottom: 30px;
+  a {
+    background: @primary;
+    border-radius: 2px;
+    color: @white;
+    &:hover {
+      background: @primary;
+      border-radius: 2px;
+      color: @white;
+    }
+    &:active {
+      background: @primary;
+      border-radius: 2px;
+      color: @white;
+    }
+  }
+  .disabled {
+    a {
+      background: #e2e2e2;
+      color: @lightdark3;
+      &:hover {
+        background: #e2e2e2;
+        color: @lightdark3;
+      }
+      &:active {
+        background: #e2e2e2;
+        color: @lightdark3;
+      }
+    }
+  }
+}
+
+.datepicker table tr td.active, .datepicker table tr td.active:hover, .datepicker table tr td.active.disabled, .datepicker table tr td.active.disabled:hover {
+  background-color: @primary !important;
+  background-image: none;
+  box-shadow: none;
+}
+
+/* Dropzone */
+.dropzone {
+  min-height: 230px;
+  border: 2px dashed rgba(0, 0, 0, 0.3);
+  background: white;
+  border-radius: 6px;
+
+  .dz-message {
+    font-size: 30px;
+  }
+}
+
