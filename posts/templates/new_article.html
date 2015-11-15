@@ -311,22 +311,27 @@
                 </div>
             </div>
             <!-- Left Sidebar End -->
-
-
-
             <!-- ============================================================== -->
             <!-- Start right Content here -->
             <!-- ============================================================== -->
             <div class="content-page">
                 <div class="content">
                     <div class="container">
-                        </div>
                         <div class="row">
                             <div class="col-sm-12">
                                 <div class="panel panel-default">
-                                    <div class="panel-heading"><h3 class="panel-title">Escreva seu artigo aqui</h3></div>
+                                    <div class="panel-heading"><h3 class="panel-title"></h3>
+                                      <form role="form" action="/create_article/" method="post" onsubmit="return getContent()">{% csrf_token %}
+                                        <div style="width:100%;">
+                                          <input type="text" name="title" placeholder="Escreva aqui seu título" style="width:100%;">
+                                        </div>
+                                    </div>
                                     <div class="panel-body">
-                                        <div class="summernote">Hello Summernote</div>
+                                      <div class="summernote" contenteditable="true" id="article-div"></div>
+                                        <textarea id="my-textarea" style="display:none" name="content"></textarea>
+                                        <button input class="btn btn-success" style="float: right;">
+                                          Enviar Texto</button>
+                                      </form>
                                     </div>
                                 </div>
                             </div>
@@ -464,8 +469,7 @@
         <!--form validation init-->
         <script src="/static/assets/vendor/summernote/dist/summernote.min.js"></script>
 
-        <script>
-
+        <script type="text/javascript">
             jQuery(document).ready(function(){
                 $('.wysihtml5').wysihtml5();
 
@@ -475,10 +479,13 @@
                     minHeight: null,             // set minimum height of editor
                     maxHeight: null,             // set maximum height of editor
 
-                    focus: true                 // set focus to editable area after initializing summernote
+                    focus: true                  // set focus to editable area after initializing summernote
                 });
 
             });
+            function getContent(){
+              $("#my-textarea").val($('.note-editable.panel-body').first().text());
+            }
         </script>
 
 

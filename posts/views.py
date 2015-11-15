@@ -94,32 +94,32 @@ class CreateUser(View):
 		else:
 			return self.get(request)
 
-class CreateObject(View):
-	post = False
 
-	def get(self, request):
-		if not self.post:
-			object_form = self.object_form()
-		else:
-			object_form = self.object_form(request.POST)
-		return render(request, self.template, locals())
-
-	def post(self, request):
-		self.post = True
-		object_form = self.object_form(request.POST)
-		if object_form.is_valid():
-			new_object = object_form.save(commit = False)
-			user = request.user
-			if Author.objects.filter(user = user).exists():
-				new_object.author = Author.objects.get(user = user)
-				new_object.save()
-			elif Reader.objects.filter(user = user).exists():
-				new_object.author = Reader.objects.get(user = user)
-				new_object.save()
-			return redirect(self.redirect_to)
-		else:
-			return self.get(request)
-
+# class CreateObject(View):
+# 	post = False
+#
+# 	def get(self, request):
+# 		if not self.post:
+# 			object_form = self.object_form()
+# 		else:
+# 			object_form = self.object_form(request.POST)
+# 		return render(request, self.template, locals())
+#
+# 	def post(self, request):
+# 		self.post = True
+# 		object_form = self.object_form(request.POST)
+# 		if object_form.is_valid():
+# 			new_object = object_form.save(commit = False)
+# 			user = request.user
+# 			if Author.objects.filter(user = user).exists():
+# 				new_object.author = Author.objects.get(user = user)
+# 				new_object.save()
+# 			elif Reader.objects.filter(user = user).exists():
+# 				new_object.author = Reader.objects.get(user = user)
+# 				new_object.save()
+# 			return redirect(self.redirect_to)
+# 		else:
+# 			return self.get(request)
 #################
 
 ################# CRUD/LOGIN/LOGOUT AUTOR
@@ -144,21 +144,34 @@ class ListAuthors(View):
 
 ############## CRUD ARTIGO
 
-class CreateArticle(CreateObject):
-	object_form = ArticleForm
-	redirect_to = '/list_my_articles'
-	template = 'new_article.html'
-	success_message = 'Artigo criado com sucesso!'
+class CreateArticle(View):
+
+	def get(self, request):
+
+		return render(request, 'new_article.html', locals())
+
+	def post(self, request):
+		print (request.POST)
+		if len(request.POST['content']) > 0:
+			content = request.POST['content']
+			title = request.POST['title']
+			new_article = Article(title = title,
+			content = content,
+			author = Author.objects.get(user = request.user))
+			new_article.save()
+			return redirect('/list_my_articles/')
+		else:
+			return self.get(request)
 
 
 class ListMyArticles(View):
 	def get(self, request):
-		qs_articles = Articles.objects.filter(
+		qs_articles = Article.objects.filter(
 		author__user = request.user).order_by('date_time')
-		return render(request, 'my_articles.html', locals())
+		return render(request, 'list_my_articles.html', locals())
 
 class ListArticles(View):
 	def get(self, request, id_author):
-		qs_articles = Articles.objects.filter(
+		qs_articles = Article.objects.filter(
 		author__id = id_author).order_by('date_time')
 		return render(request, 'list_articles.html', locals())
