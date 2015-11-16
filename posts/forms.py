@@ -6,6 +6,35 @@ from django.conf import settings
 from django.contrib.auth.models import User
 from django.contrib import messages
 
+class ChangePasswordForm(forms.Form):
+    old_password = forms.CharField(label = "Senha antiga", widget=forms.PasswordInput())
+
+    def clean_old_password(self):
+        old_password = self.cleaned_data.get("old_password")
+        if not self.user.check_password(old_password):
+            raise forms.ValidationError(u"Digite corretamente a senha")
+        return old_password
+
+class SetNewPasswordForm(ChangePasswordForm):
+    password = forms.CharField(label = 'Nova senha', widget = forms.PasswordInput())
+    confirm_password = forms.CharField(label = 'Confirme nova senha', widget = forms.PasswordInput())
+
+    def __init__(self, user, *args, **kwargs):
+        self.user = user
+        super(SetNewPasswordForm, self).__init__(*args, **kwargs)
+
+    def clean_confirm_password(self):
+        password = self.cleaned_data.get("password")
+        confirm_password = self.cleaned_data.get("confirm_password")
+        if password != confirm_password:
+            raise forms.ValidationError(u"Digite senhas iguais")
+        return confirm_password
+    def save(self, commit=True):
+        self.user.set_password(self.cleaned_data["password"])
+        if commit:
+            self.user.save()
+        return self.user
+
 class LoginForm(forms.Form):
     username = forms.CharField(label="Username", widget=forms.TextInput())
     password = forms.CharField(label='Senha', widget=forms.PasswordInput())
@@ -51,7 +80,6 @@ class UserForm(forms.ModelForm):
         return user
 
 class AuthorForm(forms.ModelForm):
-
     class Meta:
         model = Author
         exclude = ['user']
@@ -60,14 +88,4 @@ class AuthorForm(forms.ModelForm):
         super(AuthorForm, self).__init__(*args, **kwargs)
         self.fields['photo'].label = 'Escolha uma foto'
         self.fields['description'].label = 'Descrição'
-
-class ArticleForm(forms.ModelForm):
-
-    class Meta:
-        model = Article
-        exclude = ['author', 'date_time']
-
-    def __init__(self, *args, **kwargs):
-        super(ArticleForm, self).__init__(*args, **kwargs)
-        self.fields['title'].label = u'Título'
-        self.fields['content'].label = 'Escreva seu texto aqui'
+        self.fields['cover_photo'].label = 'Foto de Capa'

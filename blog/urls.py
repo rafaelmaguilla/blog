@@ -14,8 +14,12 @@ urlpatterns = [
     url(r'^logout_author/$', LogoutAuthor.as_view()),
     url(r'^create_author/$', CreateAuthor.as_view()),
     url(r'^list_authors/$', ListAuthors.as_view()),
+    url(r'^view_author/$', ViewAuthor.as_view()),
+    url(r'^profile_author/$', ProfileAuthor.as_view()),
+    url(r'^edit_author/$', EditAuthor.as_view()),
+    url(r'^change_password_author/$', ChangePassowrdAuthor.as_view()),
     #ARTICLES' URLS
     url(r'^create_article/$', CreateArticle.as_view()),
-    url(r'^list_my_articles/$', ListMyArticles.as_view()),
     url(r'^list_articles/(?P<id_author>[0-9]+)/$', ListArticles.as_view()),
+    url(r'^view_article/(?P<id_article>[0-9]+)/$', ViewArticle.as_view()),
 ]

@@ -12,6 +12,7 @@ from django.contrib.auth.models import User, Group, Permission
 class Author(models.Model):
 	user = models.OneToOneField(User)
 	photo = models.ImageField(null = True, blank = True, upload_to = 'media/authors')
+	cover_photo = models.ImageField(null = True, blank = True, upload_to = 'media/authors/covers')
 	description = models.TextField()
 
 	def __str__(self):

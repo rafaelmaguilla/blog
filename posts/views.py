@@ -19,7 +19,7 @@ from django.db.models import Q, F
 from django.http import HttpResponseRedirect as redirect
 from django.contrib.auth.decorators import *
 from posts.forms import *
-
+from django.core.validators import validate_email
 # Create your views here.
 
 def highlight_errors(request, form_list):
@@ -76,7 +76,7 @@ class CreateUser(View):
 			object_form = self.object_form()
 			user_form = self.user_form()
 		else:
-			object_form = self.object_form(request.POST)
+			object_form = self.object_form(request.POST, request.FILES)
 			user_form = self.user_form(request.POST)
 		return render(request, self.template, locals())
 
@@ -94,39 +94,28 @@ class CreateUser(View):
 		else:
 			return self.get(request)
 
+class ChangePassowrd(View):
+	change_password_form = SetNewPasswordForm
 
-# class CreateObject(View):
-# 	post = False
-#
-# 	def get(self, request):
-# 		if not self.post:
-# 			object_form = self.object_form()
-# 		else:
-# 			object_form = self.object_form(request.POST)
-# 		return render(request, self.template, locals())
-#
-# 	def post(self, request):
-# 		self.post = True
-# 		object_form = self.object_form(request.POST)
-# 		if object_form.is_valid():
-# 			new_object = object_form.save(commit = False)
-# 			user = request.user
-# 			if Author.objects.filter(user = user).exists():
-# 				new_object.author = Author.objects.get(user = user)
-# 				new_object.save()
-# 			elif Reader.objects.filter(user = user).exists():
-# 				new_object.author = Reader.objects.get(user = user)
-# 				new_object.save()
-# 			return redirect(self.redirect_to)
-# 		else:
-# 			return self.get(request)
-#################
+	def get(self, request):
+		change_password_form = self.change_password_form(self)
+		return render(request, self.template, locals())
+
+	def post(self, request):
+		change_password_form = self.change_password_form(user = request.user, data = request.POST)
+		if change_password_form.is_valid():
+			change_password_form.save()
+			messages.success(request, self.success_message)
+			return redirect(self.redirect_to)
+		else:
+			return self.get(request)
+
 
 ################# CRUD/LOGIN/LOGOUT AUTOR
 class LoginAuthor(Login):
 	login_form = LoginForm
 	template = 'login_author.html'
-	redirect_to = '/list_authors'
+	redirect_to = '/profile_author'
 
 class LogoutAuthor(Logout):
 	redirect_to = '/login_author'
@@ -134,20 +123,55 @@ class LogoutAuthor(Logout):
 class CreateAuthor(CreateUser):
 	object_form = AuthorForm
 	template = 'new_author.html'
-	redirect_to = '/list_authors'
+	redirect_to = '/login_author'
 	success_message = 'Autor cadastrado com sucesso!'
+
+class EditAuthor(View):
+	def post(self, request):
+		author = Author.objects.get(user = request.user)
+		if len(request.POST['first_name']) > 0:
+			author.user.first_name = request.POST['first_name']
+		if len(request.POST['last_name']) > 0:
+			author.user.last_name = request.POST['last_name']
+		if len(request.POST['email']) > 0:
+			try:
+				validate_email(request.POST['email'])
+				author.user.email = request.POST['email']
+			except:
+				pass
+		if len(request.POST['username']) > 0:
+			author.user.username = request.POST['username']
+		author.user.save()
+		if len(request.POST['description']) > 0:
+			author.description = request.POST['description']
+		author.save()
+		return redirect('/profile_author/')
+
+class ChangePassowrdAuthor(ChangePassowrd):
+	redirect_to = '/profile_author'
+	success_message = 'Senha alterada com sucesso!'
+	template = 'change_password_author.html'
 
 class ListAuthors(View):
 	def get(self, request):
 		qs_authors = Author.objects.all().order_by('user__first_name')
 		return render(request, 'list_authors.html', locals())
 
+class ViewAuthor(View):
+	def get(self, request, id_author):
+		author = Author.objects.get(id = id_author)
+		return render(request, 'view_author.html', locals())
+
+class ProfileAuthor(View):
+	def get(self, request):
+		author = Author.objects.get(user = request.user)
+		qs_articles = Article.objects.filter(author = author)
+		return render(request, 'profile_author.html', locals())
+
 ############## CRUD ARTIGO
 
 class CreateArticle(View):
-
 	def get(self, request):
-
 		return render(request, 'new_article.html', locals())
 
 	def post(self, request):
@@ -159,19 +183,17 @@ class CreateArticle(View):
 			content = content,
 			author = Author.objects.get(user = request.user))
 			new_article.save()
-			return redirect('/list_my_articles/')
+			return redirect('/profile_author/')
 		else:
 			return self.get(request)
-
-
-class ListMyArticles(View):
-	def get(self, request):
-		qs_articles = Article.objects.filter(
-		author__user = request.user).order_by('date_time')
-		return render(request, 'list_my_articles.html', locals())
 
 class ListArticles(View):
 	def get(self, request, id_author):
 		qs_articles = Article.objects.filter(
 		author__id = id_author).order_by('date_time')
 		return render(request, 'list_articles.html', locals())
+
+class ViewArticle(View):
+	def get(self, request, id_article):
+		article = Article.objects.get(id = id_article)
+		return render(request, 'view_article.html', locals())
