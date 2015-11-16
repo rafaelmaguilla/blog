@@ -106,6 +106,7 @@ class ChangePassowrd(View):
 		if change_password_form.is_valid():
 			change_password_form.save()
 			messages.success(request, self.success_message)
+			logout(request)
 			return redirect(self.redirect_to)
 		else:
 			return self.get(request)
@@ -148,7 +149,7 @@ class EditAuthor(View):
 		return redirect('/profile_author/')
 
 class ChangePassowrdAuthor(ChangePassowrd):
-	redirect_to = '/profile_author'
+	redirect_to = '/login_author'
 	success_message = 'Senha alterada com sucesso!'
 	template = 'change_password_author.html'
 
@@ -164,7 +165,10 @@ class ViewAuthor(View):
 
 class ProfileAuthor(View):
 	def get(self, request):
-		author = Author.objects.get(user = request.user)
+		try:
+			author = Author.objects.get(user = request.user)
+		except TypeError:
+			author = Author.objects.get(user = self.request.user.id)
 		qs_articles = Article.objects.filter(author = author)
 		return render(request, 'profile_author.html', locals())
 
