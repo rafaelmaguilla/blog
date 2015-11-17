@@ -100,7 +100,7 @@ class ChangePassowrd(View):
 	def get(self, request):
 		change_password_form = self.change_password_form(self)
 		return render(request, self.template, locals())
-
+		
 	def post(self, request):
 		change_password_form = self.change_password_form(user = request.user, data = request.POST)
 		if change_password_form.is_valid():
@@ -128,6 +128,8 @@ class CreateAuthor(CreateUser):
 	success_message = 'Autor cadastrado com sucesso!'
 
 class EditAuthor(View):
+
+
 	def post(self, request):
 		author = Author.objects.get(user = request.user)
 		if len(request.POST['first_name']) > 0:
@@ -164,19 +166,19 @@ class ViewAuthor(View):
 		return render(request, 'view_author.html', locals())
 
 class ProfileAuthor(View):
+
 	def get(self, request):
-		try:
-			author = Author.objects.get(user = request.user)
-		except TypeError:
-			author = Author.objects.get(user = self.request.user.id)
+		author = Author.objects.get(user = request.user)
 		qs_articles = Article.objects.filter(author = author)
 		return render(request, 'profile_author.html', locals())
 
 ############## CRUD ARTIGO
 
 class CreateArticle(View):
+
 	def get(self, request):
 		return render(request, 'new_article.html', locals())
+
 
 	def post(self, request):
 		print (request.POST)
