@@ -23,5 +23,6 @@ urlpatterns = [
     url(r'^list_articles/(?P<id_author>[0-9]+)/$', ListArticles.as_view()),
     url(r'^view_article/(?P<id_article>[0-9]+)/$', ViewArticle.as_view()),
     #READERS' URLS'
+    url(r'^login/$', LoginReader.as_view()),
     url(r'^create_reader/$', CreateReader.as_view()),
 ]

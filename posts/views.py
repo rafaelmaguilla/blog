@@ -30,6 +30,7 @@ def highlight_errors(request, form_list):
 
 ######## CLASSES ABSTRATAS
 class Login(View):
+	login_form = LoginForm
 	post = False
 	def get(self, request):
 		if not self.post:
@@ -114,7 +115,6 @@ class ChangePassowrd(View):
 
 ################# CRUD/LOGIN/LOGOUT AUTOR
 class LoginAuthor(Login):
-	login_form = LoginForm
 	template = 'login_author.html'
 	redirect_to = '/profile_author'
 
@@ -204,6 +204,10 @@ class ViewArticle(View):
 		return render(request, 'view_article.html', locals())
 
 ########## CRUD Leitor
+class LoginReader(Login):
+	template = 'login.html'
+	redirect_to = '/profile_reader'
+
 class CreateReader(CreateUser):
 	object_form = ReaderForm
 	template = 'new_reader.html'
