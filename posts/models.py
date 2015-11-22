@@ -7,6 +7,8 @@ from django.conf import settings
 from django.utils import timezone
 from django.dispatch import receiver
 from django.contrib.auth.models import User, Group, Permission
+from django.db import models
+# from local_models import RichTextFieldWithClass
 # Create your models here.
 
 class Author(models.Model):
@@ -18,10 +20,13 @@ class Author(models.Model):
 	def __str__(self):
 		return self.user.first_name + ' ' + self.user.last_name
 
+
+
 class Article(models.Model):
 	author = models.ForeignKey(Author)
 	title = models.CharField(max_length = 256, unique = True)
 	content = models.TextField()
+	# plain_text = models.TextField()
 	date_time = models.DateTimeField(default = datetime.datetime.now())
 
 	def __str__(self):

@@ -89,3 +89,12 @@ class AuthorForm(forms.ModelForm):
         self.fields['photo'].label = 'Escolha uma foto'
         self.fields['description'].label = 'Descrição'
         self.fields['cover_photo'].label = 'Foto de Capa'
+
+class ReaderForm(forms.ModelForm):
+    class Meta:
+        model = Reader
+        exclude = ['user']
+
+    def __init__(self, *args, **kwargs):
+        super(ReaderForm, self).__init__(*args, **kwargs)
+        self.fields['photo'].label = 'Escolha uma foto'

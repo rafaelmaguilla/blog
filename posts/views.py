@@ -100,7 +100,7 @@ class ChangePassowrd(View):
 	def get(self, request):
 		change_password_form = self.change_password_form(self)
 		return render(request, self.template, locals())
-		
+
 	def post(self, request):
 		change_password_form = self.change_password_form(user = request.user, data = request.POST)
 		if change_password_form.is_valid():
@@ -181,7 +181,6 @@ class CreateArticle(View):
 
 
 	def post(self, request):
-		print (request.POST)
 		if len(request.POST['content']) > 0:
 			content = request.POST['content']
 			title = request.POST['title']
@@ -203,3 +202,10 @@ class ViewArticle(View):
 	def get(self, request, id_article):
 		article = Article.objects.get(id = id_article)
 		return render(request, 'view_article.html', locals())
+
+########## CRUD Leitor
+class CreateReader(CreateUser):
+	object_form = ReaderForm
+	template = 'new_reader.html'
+	redirect_to = '/login_reader'
+	success_message = 'Conta criada com sucesso!'

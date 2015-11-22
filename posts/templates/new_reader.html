@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h3>Cadastro de novo leitor</h3>
+
+<form class="form-horizontal" action="/create_reader/" method="post">{% csrf_token %}
+  <table>
+    <tr ><td colspan="2"><h4>Informações de usuário</h4></td></tr>
+    {% for field in user_form %}
+    <tr>
+      <td>{{field.label}}</td>
+      <td>{{field}}</td>
+    </tr>
+    {% endfor %}
+    <tr><td><h4>Informações Pessoais</h4></td></tr>
+    {% for field in object_form %}
+    <tr>
+      <td>{{field.label}}</td>
+      <td>{{field}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+<button input name="button" class="btn btn-success">Cadastrar</button>
+</form>
+
+{% endblock %}
